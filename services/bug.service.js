@@ -51,7 +51,8 @@ function add(bug) {
         title: bug.title,
         description: bug.description,
         severity: bug.severity,
-        createdAt: Date.now()
+        createdAt: Date.now(),
+        labels: bug.labels.split(/[\s,]+/).filter(Boolean)
     }
     bugs.push(bugToSave)
     return _savebugs().then(() => bugToSave)

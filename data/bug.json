@@ -4,41 +4,61 @@
     "title": "Email not sent",
     "description": "Clicking Send does nothing",
     "severity": 2,
-    "createdAt": 1673105102451
+    "createdAt": 1673105102451,
+    "labels": [
+      "need-CR"
+    ]
   },
   {
     "_id": "bug002",
     "title": "Sidebar not expanding",
     "description": "Folders list doesn't open on click",
     "severity": 4,
-    "createdAt": 1673105201123
+    "createdAt": 1673105201123,
+    "labels": [
+      "critical",
+      "need-CR"
+    ]
   },
   {
     "_id": "bug003",
     "title": "Profile picture not loading",
     "description": "Avatar URL returns 404",
     "severity": 1,
-    "createdAt": 1673105309887
+    "createdAt": 1673105309887,
+    "labels": [
+      "dev-branch"
+    ]
   },
   {
     "_id": "bug004",
     "title": "Dark mode switch broken",
     "description": "UI stays white after toggling",
     "severity": 3,
-    "createdAt": 1673105405532
+    "createdAt": 1673105405532,
+    "labels": [
+      "critical"
+    ]
   },
   {
     "_id": "bug005",
     "title": "Search bar not filtering",
     "description": "Typing any text shows all results",
     "severity": 3,
-    "createdAt": 1673105504419
+    "createdAt": 1673105504419,
+    "labels": [
+      "critical"
+    ]
   },
   {
-    "_id": "uZB",
-    "title": "Ladybug",
-    "description": "Might eat your flowers",
-    "severity": 3,
-    "createdAt": 1764625516233
+    "_id": "w1n",
+    "title": "Peasant Bug",
+    "description": "A commoner",
+    "severity": 2,
+    "createdAt": 1764691251921,
+    "labels": [
+      "low-priority",
+      "need-CR"
+    ]
   }
 ]

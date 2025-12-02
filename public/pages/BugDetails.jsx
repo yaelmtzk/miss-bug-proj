@@ -24,10 +24,11 @@ export function BugDetails() {
                 <h4>{bug.title}</h4>
                 <h5>Severity: <span>{bug.severity}</span></h5>
                 <p>{bug.description}</p>
+                <br />
+                <p>Labels: {bug.labels.join(', ')}</p>
             </div>
         }
         <hr />
         <Link to="/bug">Back to List</Link>
     </div>
-
 }

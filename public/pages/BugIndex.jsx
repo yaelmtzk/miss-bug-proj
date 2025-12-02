@@ -31,7 +31,10 @@ export function BugIndex() {
         const bug = {
             title: prompt('Bug title?', 'Bug ' + Date.now()),
             description: prompt('Bug description?'),
-            severity: +prompt('Bug severity?', 3)
+            severity: +prompt('Bug severity?', 3),
+            labels: prompt(`Choose one or more labels from the list: \n
+                (critical, need-CR, dev-branch, UI-glitch, backend-check, 
+                low-priority)`).split(/[\s,]+/).filter(Boolean)
         }
 
         bugService.save(bug)
@@ -44,6 +47,9 @@ export function BugIndex() {
 
     function onEditBug(bug) {
         const severity = +prompt('New severity?', bug.severity)
+
+        if (severity === '') return
+        
         const bugToSave = { ...bug, severity }
 
         bugService.save(bugToSave)

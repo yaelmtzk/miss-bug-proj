@@ -8,11 +8,12 @@ const app = express()
 // Express Config
 app.use(express.static('public'))
 app.use(cookieParser())
+app.use(express.json())
 
 app.get('/api/bug', (req, res) => {
     const { txt, minSeverity } = req.query
     console.log(txt, minSeverity);
-    
+
     bugService.query({ txt, minSeverity })
         .then(bugs => {
             res.json(bugs)
@@ -28,7 +29,8 @@ app.get('/api/bug/save', (req, res) => {
         _id: req.query._id,
         title: req.query.title,
         description: req.query.description,
-        severity: +req.query.severity
+        severity: +req.query.severity,
+        labels: req.query.labels
     }
 
     const func = (bug._id) ? 'update' : 'add'
@@ -44,6 +46,16 @@ app.get('/api/bug/save', (req, res) => {
 
 app.get('/api/bug/:bugId', (req, res) => {
     const { bugId } = req.params
+    const { visitedBugs = [] } = req.cookies
+
+    if (!visitedBugs.includes(bugId)) {
+        if (visitedBugs.length >= 3) return res.status(401).send('Wait for a bit')
+        else visitedBugs.push(bugId)
+
+        // console.log('visitedBugs', visitedBugs)
+        res.cookie('visitedBugs', visitedBugs, { maxAge: 1000 * 70 })
+    }
+
     bugService.getById(bugId)
         .then(bug => {
             res.json(bug)

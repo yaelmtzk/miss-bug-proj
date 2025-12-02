@@ -16,8 +16,7 @@ function query(filterBy = {}) {
 
     if (filterBy.txt) params.append('txt', filterBy.txt)
     if (filterBy.minSeverity) params.append('minSeverity', filterBy.minSeverity)
-    console.log(params);
-
+    
     return axios.get(BASE_URL + '?' + params.toString())
         .then(res => res.data)
 }
@@ -32,7 +31,7 @@ function remove(bugId) {
 
 function save(bug) {
     const url = BASE_URL + 'save'
-    let queryParams = `?title=${bug.title}&description=${bug.description}&severity=${bug.severity}`
+    let queryParams = `?title=${bug.title}&description=${bug.description}&severity=${bug.severity}&labels=${bug.labels}`
 
     if (bug._id) queryParams += `&_id=${bug._id}`
 
@@ -44,5 +43,11 @@ function getDefaultFilter() {
 }
 
 function getEmptyBug(title = '', description = '', severity = 0) {
-    return { _id: '', title, description, severity, createdAt: Date.now() }
+    return { _id: '', 
+        title, 
+        description, 
+        severity, 
+        createdAt: Date.now(), 
+        labels: [] 
+    }
 }
