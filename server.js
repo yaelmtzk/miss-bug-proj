@@ -1,6 +1,7 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import { bugService } from './services/bug.service.js'
+import { loggerService } from './services/logger.service.js'
 
 const app = express()
 
@@ -9,11 +10,10 @@ app.use(express.static('public'))
 app.use(cookieParser())
 
 app.get('/api/bug', (req, res) => {
-    var visitCount = req.cookies.visitCount || 0
-    visitCount++
-    res.cookie('visitCount', visitCount)
-
-    bugService.query()
+    const { txt, minSeverity } = req.query
+    console.log(txt, minSeverity);
+    
+    bugService.query({ txt, minSeverity })
         .then(bugs => {
             res.json(bugs)
         })
@@ -28,7 +28,7 @@ app.get('/api/bug/save', (req, res) => {
         _id: req.query._id,
         title: req.query.title,
         description: req.query.description,
-        severity: +req.query.severity,
+        severity: +req.query.severity
     }
 
     const func = (bug._id) ? 'update' : 'add'
@@ -55,7 +55,7 @@ app.get('/api/bug/:bugId', (req, res) => {
 })
 app.get('/api/bug/:bugId/remove', (req, res) => {
     const { bugId } = req.params
-    carService.remove(bugId)
+    bugService.remove(bugId)
         .then(() => {
             res.send('Bug removed')
         })
@@ -65,5 +65,4 @@ app.get('/api/bug/:bugId/remove', (req, res) => {
         })
 })
 
-// app.get('/bug', (req, res) => res.send('Hello there'))
 app.listen(3030, () => console.log('Server ready at port 3030')) 

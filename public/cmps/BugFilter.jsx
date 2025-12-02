@@ -11,6 +11,7 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
     function handleChange({ target }) {
         const field = target.name
         let value = target.value
+        console.log(field);
 
         switch (target.type) {
             case 'number':
@@ -27,6 +28,7 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
         }
 
         setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+        console.log(filterByToEdit)
     }
 
     function onSubmitFilter(ev) {

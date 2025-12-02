@@ -1,3 +1,4 @@
+//BACK SERVICE
 import fs from 'fs'
 import { utilService } from './util.service.js'
 
@@ -12,9 +13,24 @@ export const bugService = {
 const bugsFile = 'data/bug.json'
 const bugs = utilService.readJsonFile(bugsFile)
 
-function query() {
-    return Promise.resolve(bugs)
+function query(filterBy ={}) {
+    const { txt, minSeverity } = filterBy
+    let filtered = bugs
+
+    if (txt) {
+        const regex = new RegExp(txt, 'i')
+        filtered = filtered.filter(bug =>
+            regex.test(bug.title) || regex.test(bug.description))
+    }
+
+    if (minSeverity) {
+        filtered = filtered.filter(bug => bug.severity >= +minSeverity)
+    }
+    console.log(filtered);
+    
+    return Promise.resolve(filtered)
 }
+
 
 function getById(bugId) {
     const bug = bugs.find(bug => bug._id === bugId)
@@ -46,7 +62,7 @@ function update(bug) {
     if (!bugToUpdate) return Promise.reject(`No such bug ${bug._id}`)
     bugToUpdate.title = bug.title
     bugToUpdate.description = bug.description
-    bugToUpdate.severity = bug.description
+    bugToUpdate.severity = bug.severity
     return _savebugs().then(() => bugToUpdate)
 }
 

@@ -1,36 +1,44 @@
-[{
-  "_id": "bug001",
-  "title": "Email not sent",
-  "description": "Clicking Send does nothing",
-  "severity": 2,
-  "createdAt": 1673105102451
-},
-{
-  "_id": "bug002",
-  "title": "Sidebar not expanding",
-  "description": "Folders list doesn't open on click",
-  "severity": 4,
-  "createdAt": 1673105201123
-},
-{
-  "_id": "bug003",
-  "title": "Profile picture not loading",
-  "description": "Avatar URL returns 404",
-  "severity": 1,
-  "createdAt": 1673105309887
-},
-{
-  "_id": "bug004",
-  "title": "Dark mode switch broken",
-  "description": "UI stays white after toggling",
-  "severity": 3,
-  "createdAt": 1673105405532
-},
-{
-  "_id": "bug005",
-  "title": "Search bar not filtering",
-  "description": "Typing any text shows all results",
-  "severity": 5,
-  "createdAt": 1673105504419
-}
+[
+  {
+    "_id": "bug001",
+    "title": "Email not sent",
+    "description": "Clicking Send does nothing",
+    "severity": 2,
+    "createdAt": 1673105102451
+  },
+  {
+    "_id": "bug002",
+    "title": "Sidebar not expanding",
+    "description": "Folders list doesn't open on click",
+    "severity": 4,
+    "createdAt": 1673105201123
+  },
+  {
+    "_id": "bug003",
+    "title": "Profile picture not loading",
+    "description": "Avatar URL returns 404",
+    "severity": 1,
+    "createdAt": 1673105309887
+  },
+  {
+    "_id": "bug004",
+    "title": "Dark mode switch broken",
+    "description": "UI stays white after toggling",
+    "severity": 3,
+    "createdAt": 1673105405532
+  },
+  {
+    "_id": "bug005",
+    "title": "Search bar not filtering",
+    "description": "Typing any text shows all results",
+    "severity": 3,
+    "createdAt": 1673105504419
+  },
+  {
+    "_id": "uZB",
+    "title": "Ladybug",
+    "description": "Might eat your flowers",
+    "severity": 3,
+    "createdAt": 1764625516233
+  }
 ]
