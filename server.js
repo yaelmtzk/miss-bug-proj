@@ -11,10 +11,16 @@ app.use(cookieParser())
 app.use(express.json())
 
 app.get('/api/bug', (req, res) => {
-    const { txt, minSeverity } = req.query
-    console.log(txt, minSeverity);
+    const { txt, minSeverity, sortBy,  sortDir} = req.query
 
-    bugService.query({ txt, minSeverity })
+    const filterBy = {
+        txt,
+        minSeverity,
+        sortBy,
+        sortDir: +sortDir
+    }
+
+    bugService.query(filterBy)
         .then(bugs => {
             res.json(bugs)
         })

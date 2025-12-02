@@ -1,3 +1,5 @@
+import { BugSort } from './BugSort.jsx'
+
 const { useState, useEffect } = React
 
 export function BugFilter({ filterBy, onSetFilterBy }) {
@@ -47,6 +49,9 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
                 <label htmlFor="minSeverity">Min Severity: </label>
                 <input value={minSeverity} onChange={handleChange} type="number" placeholder="By Min Severity" id="minSeverity" name="minSeverity" />
             </form>
+
+            <BugSort filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+
         </section>
     )
 }

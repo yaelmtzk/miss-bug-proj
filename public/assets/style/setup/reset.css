@@ -3,7 +3,7 @@
 }
 
 html {
-    color-scheme: light dark;
+    color-scheme: normal;
 }
 
 @media (prefers-reduced-motion: no-preference) {

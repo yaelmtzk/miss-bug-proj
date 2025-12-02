@@ -11,7 +11,7 @@ export function BugIndex() {
 
     useEffect(loadBugs, [filterBy])
 
-    function loadBugs() {
+    function loadBugs() {      
         bugService.query(filterBy)
             .then(setBugs)
             .catch(err => showErrorMsg(`Couldn't load bugs - ${err}`))
@@ -49,7 +49,7 @@ export function BugIndex() {
         const severity = +prompt('New severity?', bug.severity)
 
         if (severity === '') return
-        
+
         const bugToSave = { ...bug, severity }
 
         bugService.save(bugToSave)
@@ -68,8 +68,8 @@ export function BugIndex() {
     }
 
     return <section className="bug-index main-content">
-        
         <BugFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+
         <header>
             <h3>Bug List</h3>
             <button onClick={onAddBug}>Add Bug</button>

@@ -13,8 +13,8 @@ export const bugService = {
 const bugsFile = 'data/bug.json'
 const bugs = utilService.readJsonFile(bugsFile)
 
-function query(filterBy ={}) {
-    const { txt, minSeverity } = filterBy
+function query(filterBy = {}) {
+    const { txt, minSeverity, sortBy, sortDir } = filterBy
     let filtered = bugs
 
     if (txt) {
@@ -26,53 +26,65 @@ function query(filterBy ={}) {
     if (minSeverity) {
         filtered = filtered.filter(bug => bug.severity >= +minSeverity)
     }
-    console.log(filtered);
-    
-    return Promise.resolve(filtered)
-}
 
+    if (sortBy) {
+        if (sortBy === 'title') {
+            filtered = filtered.sort((a, b) => a.title.localeCompare(b.title))
+        }
+        else if (sortBy === 'severity') {
+            filtered = filtered.sort((a, b) => a.severity - b.severity)
+        }
+        else if (sortBy === 'createdAt') {
+            filtered = filtered.sort((a, b) => a.createdAt - b.createdAt)
+        }
 
-function getById(bugId) {
-    const bug = bugs.find(bug => bug._id === bugId)
-    if (!bug) return Promise.reject(`No such bug ${bugId}`)
-    return Promise.resolve(bug)
-}
-
-function remove(bugId) {
-    const idx = bugs.findIndex(bug => bug._id === bugId)
-    if (idx === -1) return Promise.reject(`No such bug ${bugId}`)
-    bugs.splice(idx, 1)
-    return _savebugs()
-}
-
-function add(bug) {
-    const bugToSave = {
-        _id: utilService.makeId(),
-        title: bug.title,
-        description: bug.description,
-        severity: bug.severity,
-        createdAt: Date.now(),
-        labels: bug.labels.split(/[\s,]+/).filter(Boolean)
+        if(sortDir === -1) filtered.reverse()
     }
-    bugs.push(bugToSave)
-    return _savebugs().then(() => bugToSave)
-}
+        return Promise.resolve(filtered)
+    }
 
-function update(bug) {
-    const bugToUpdate = bugs.find(currbug => currbug._id === bug._id)
-    if (!bugToUpdate) return Promise.reject(`No such bug ${bug._id}`)
-    bugToUpdate.title = bug.title
-    bugToUpdate.description = bug.description
-    bugToUpdate.severity = bug.severity
-    return _savebugs().then(() => bugToUpdate)
-}
 
-function _savebugs() {
-    return new Promise((resolve, reject) => {
-        const strbugs = JSON.stringify(bugs, null, 2)
-        fs.writeFile(bugsFile, strbugs, (err) => {
-            if (err) return reject('Cannot update bugs file')
-            resolve()
+    function getById(bugId) {
+        const bug = bugs.find(bug => bug._id === bugId)
+        if (!bug) return Promise.reject(`No such bug ${bugId}`)
+        return Promise.resolve(bug)
+    }
+
+    function remove(bugId) {
+        const idx = bugs.findIndex(bug => bug._id === bugId)
+        if (idx === -1) return Promise.reject(`No such bug ${bugId}`)
+        bugs.splice(idx, 1)
+        return _savebugs()
+    }
+
+    function add(bug) {
+        const bugToSave = {
+            _id: utilService.makeId(),
+            title: bug.title,
+            description: bug.description,
+            severity: bug.severity,
+            createdAt: Date.now(),
+            labels: bug.labels.split(/[\s,]+/).filter(Boolean)
+        }
+        bugs.push(bugToSave)
+        return _savebugs().then(() => bugToSave)
+    }
+
+    function update(bug) {
+        const bugToUpdate = bugs.find(currbug => currbug._id === bug._id)
+        if (!bugToUpdate) return Promise.reject(`No such bug ${bug._id}`)
+        bugToUpdate.title = bug.title
+        bugToUpdate.description = bug.description
+        bugToUpdate.severity = bug.severity
+        return _savebugs().then(() => bugToUpdate)
+    }
+
+    function _savebugs() {
+        return new Promise((resolve, reject) => {
+            const strbugs = JSON.stringify(bugs, null, 2)
+            fs.writeFile(bugsFile, strbugs, (err) => {
+                if (err) return reject('Cannot update bugs file')
+                resolve()
+            })
         })
-    })
-}
+    }

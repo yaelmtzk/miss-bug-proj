@@ -12,11 +12,14 @@ export const bugService = {
 }
 
 function query(filterBy = {}) {
+  
     const params = new URLSearchParams()
 
     if (filterBy.txt) params.append('txt', filterBy.txt)
     if (filterBy.minSeverity) params.append('minSeverity', filterBy.minSeverity)
-    
+    if (filterBy.sortBy) params.append('sortBy', filterBy.sortBy)
+    if (filterBy.sortDir) params.append('sortDir', filterBy.sortDir)
+
     return axios.get(BASE_URL + '?' + params.toString())
         .then(res => res.data)
 }
@@ -39,7 +42,12 @@ function save(bug) {
 }
 
 function getDefaultFilter() {
-    return { txt: '', minSeverity: '' }
+    return { 
+        txt: '', 
+        minSeverity: '', 
+        sortBy: '', 
+        sortDir: '' 
+    }
 }
 
 function getEmptyBug(title = '', description = '', severity = 0) {
