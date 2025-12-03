@@ -2,20 +2,21 @@
 import fs from 'fs'
 import { utilService } from './util.service.js'
 
+let gBugs = utilService.readJsonFile('data/bug.json')
+
 export const bugService = {
     query,
     getById,
     remove,
-    add,
-    update
+    save
 }
 
-const bugsFile = 'data/bug.json'
-const bugs = utilService.readJsonFile(bugsFile)
+const PAGE_SIZE = 3
 
 function query(filterBy = {}) {
-    const { txt, minSeverity, sortBy, sortDir } = filterBy
-    let filtered = bugs
+    let filtered = [...gBugs]
+
+    const { txt, minSeverity, sortBy, sortDir, label, pageIdx } = filterBy
 
     if (txt) {
         const regex = new RegExp(txt, 'i')
@@ -25,6 +26,10 @@ function query(filterBy = {}) {
 
     if (minSeverity) {
         filtered = filtered.filter(bug => bug.severity >= +minSeverity)
+    }
+    if (label) {
+        filtered = filtered.filter(bug =>
+            bug.labels.some(lbl => lbl === label))
     }
 
     if (sortBy) {
@@ -38,53 +43,59 @@ function query(filterBy = {}) {
             filtered = filtered.sort((a, b) => a.createdAt - b.createdAt)
         }
 
-        if(sortDir === -1) filtered.reverse()
-    }
-        return Promise.resolve(filtered)
+        if (sortDir === -1) filtered.reverse()
     }
 
+    const totalPageSize = Math.ceil(filtered.length / PAGE_SIZE) - 1
 
-    function getById(bugId) {
-        const bug = bugs.find(bug => bug._id === bugId)
-        if (!bug) return Promise.reject(`No such bug ${bugId}`)
-        return Promise.resolve(bug)
+    // SS - Pagination~
+    if (pageIdx !== null) {
+        const startIdx = pageIdx * PAGE_SIZE
+        filtered = filtered.slice(startIdx, startIdx + PAGE_SIZE)
     }
 
-    function remove(bugId) {
-        const idx = bugs.findIndex(bug => bug._id === bugId)
-        if (idx === -1) return Promise.reject(`No such bug ${bugId}`)
-        bugs.splice(idx, 1)
-        return _savebugs()
-    }
+    return Promise.resolve({ filtered, totalPageSize })
+}
 
-    function add(bug) {
-        const bugToSave = {
-            _id: utilService.makeId(),
-            title: bug.title,
-            description: bug.description,
-            severity: bug.severity,
-            createdAt: Date.now(),
-            labels: bug.labels.split(/[\s,]+/).filter(Boolean)
-        }
-        bugs.push(bugToSave)
-        return _savebugs().then(() => bugToSave)
-    }
 
-    function update(bug) {
-        const bugToUpdate = bugs.find(currbug => currbug._id === bug._id)
-        if (!bugToUpdate) return Promise.reject(`No such bug ${bug._id}`)
-        bugToUpdate.title = bug.title
-        bugToUpdate.description = bug.description
-        bugToUpdate.severity = bug.severity
-        return _savebugs().then(() => bugToUpdate)
-    }
+function getById(bugId) {
+    const bug = bugs.find(bug => bug._id === bugId)
+    if (!bug) return Promise.reject(`No such bug ${bugId}`)
+    return Promise.resolve(bug)
+}
 
-    function _savebugs() {
-        return new Promise((resolve, reject) => {
-            const strbugs = JSON.stringify(bugs, null, 2)
-            fs.writeFile(bugsFile, strbugs, (err) => {
-                if (err) return reject('Cannot update bugs file')
+function remove(bugId) {
+    const idx = gBugs.findIndex(bug => bug._id === bugId)
+    if (idx === -1) return Promise.reject(`No such bug ${bugId}`)
+    gBugs.splice(idx, 1)
+    return _savebugs()
+}
+
+function save(bug) {
+    console.log(bug);
+
+    if (bug._id) {
+        const idx = gBugs.findIndex((currBug) => currBug._id === bug._id)
+        gBugs[idx] = { ...gBugs[idx], ...bug }
+    } else {
+        bug.createdAt = Date.now()
+        bug._id = utilService.makeId()
+
+        gBugs.push(bug)
+    }
+    return _savebugs().then(() => bug)
+}
+
+function _savebugs() {
+    return new Promise((resolve, reject) => {
+        const strBugs = JSON.stringify(gBugs, null, 2)
+        fs.writeFile('data/bug.json', strBugs, (err) => {
+
+            if (err) return reject('Cannot update bugs file')
+            else {
+                console.log('Wrote Successfully!')
                 resolve()
-            })
+            }
         })
-    }
+    })
+}

@@ -1,8 +1,9 @@
 import { BugSort } from './BugSort.jsx'
+import { bugService } from "../services/bug.service.js"
 
 const { useState, useEffect } = React
 
-export function BugFilter({ filterBy, onSetFilterBy }) {
+export function BugFilter({ filterBy, onSetFilterBy, labels }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
@@ -13,8 +14,6 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
     function handleChange({ target }) {
         const field = target.name
         let value = target.value
-        console.log(field);
-
         switch (target.type) {
             case 'number':
             case 'range':
@@ -30,12 +29,15 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
         }
 
         setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
-        console.log(filterByToEdit)
     }
 
     function onSubmitFilter(ev) {
         ev.preventDefault()
         onSetFilterBy(filterByToEdit)
+    }
+
+    function onClear() {
+        setFilterByToEdit(bugService.getDefaultFilter())
     }
 
     const { txt, minSeverity } = filterByToEdit
@@ -50,7 +52,14 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
                 <input value={minSeverity} onChange={handleChange} type="number" placeholder="By Min Severity" id="minSeverity" name="minSeverity" />
             </form>
 
-            <BugSort filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+            <BugSort
+                filterBy={filterByToEdit}
+                onSetFilterBy={setFilterByToEdit}
+                labels={labels} />
+
+            <div>
+                <button onClick={onClear}>Clear</button>
+            </div>
 
         </section>
     )
