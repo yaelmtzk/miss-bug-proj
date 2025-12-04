@@ -1,12 +1,13 @@
 import { authService } from '../services/auth.service.js'
 
-const { Link } = ReactRouterDOM
+const { Link, useLocation } = ReactRouterDOM
 
 import { BugPreview } from './BugPreview.jsx'
 
-export function BugList({ bugs, onRemoveBug, onEditBug }) {
+export function BugList({ bugs, onRemoveBug, onEditBug, loggedinUser }) {
 
     const user = authService.getLoggedinUser()
+    const location = useLocation()
 
     function isAllowed(bug) {
         if (!user) return false
@@ -16,6 +17,7 @@ export function BugList({ bugs, onRemoveBug, onEditBug }) {
     }
 
     if (!bugs) return <div>Loading...</div>
+
     return <ul className="bug-list">
         {bugs.map(bug => (
             <li key={bug._id}>

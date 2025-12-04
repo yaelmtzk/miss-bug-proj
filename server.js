@@ -38,13 +38,9 @@ app.get('/api/bug', (req, res) => {
 
 // UPDATE
 app.put('/api/bug', (req, res) => {
-    const bug = req.body
-
-    console.log(bug);
-    
+    const bug = req.body   
 
     const loggedinUser = authService.validateToken(req.cookies.loginToken)
-    // console.log(loggedinUser);
     
     if (!loggedinUser) return res.status(401).send('Cannot update bug')
 
@@ -126,8 +122,7 @@ app.get('/api/user', (req, res) => {
 app.get('/api/user/:userId', (req, res) => {
     const { userId } = req.params
 
-    userService
-        .getById(userId)
+    userService.getById(userId)
         .then(user => res.send(user))
         .catch(err => {
             loggerService.error('Cannot load user', err)

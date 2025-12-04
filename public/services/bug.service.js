@@ -41,6 +41,7 @@ function getDefaultFilter() {
         sortBy: '', 
         sortDir: '',
         label: '',
+        userId: '',
         pageIdx: 0 
     }
 }

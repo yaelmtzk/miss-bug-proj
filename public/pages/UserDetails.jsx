@@ -1,39 +1,76 @@
 const { useState, useEffect } = React
 const { useParams, useNavigate } = ReactRouterDOM
 
-import { userService } from "../services/user.service.js"
+import { authService } from '../services/auth.service.js'
+import { bugService } from '../services/bug.service.js'
+import { BugList } from "../cmps/BugList.jsx"
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 
 export function UserDetails() {
+    const loggedinUser = authService.getLoggedinUser()
+    const [userBugs, setUserBugs] = useState([])
 
-    const [user, setUser] = useState(null)
-    const params = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
-        loadUser()
-    }, [params.userId])
+        if (!loggedinUser) {
+            navigate('/')
+            return
+        }
+        loadUserBugs()
+    }, [])
 
-    function loadUser() {
-        userService.getById(params.userId)
-            .then(setUser)
-            .catch(err => {
-                console.log('err:', err)
-                navigate('/')
+    function loadUserBugs() {
+        bugService.query({ userId: loggedinUser._id })
+            .then(res => {
+                console.log(res.filtered);
+                
+                setUserBugs(res.filtered)
             })
     }
 
-    function onBack() {
-        navigate('/')
+    function onRemoveBug(bugId) {
+        bugService.remove(bugId)
+            .then(() => {
+                console.log('Deleted Succesfully!')
+                setUserBugs(prevBugs => prevBugs.filter(bug => bug._id !== bugId))
+                showSuccessMsg('Bug removed')
+            })
+            .catch(err => {
+                console.log('from remove bug', err)
+                showErrorMsg('Cannot remove bug')
+            })
     }
 
-    if (!user) return <div>Loading...</div>
+    function onEditBug(bug) {
+        const severity = +prompt('New severity?')
+        if (!severity) return alert('Please enter a severity')
+        const bugToSave = { ...bug, severity }
+        bugService.save(bugToSave)
+            .then(savedBug => {
+                console.log('Updated Bug:', savedBug)
+                setUserBugs(prevBugs =>
+                    prevBugs.map(currBug =>
+                        currBug._id === savedBug._id ? savedBug : currBug
+                    )
+                )
+                showSuccessMsg('Bug updated')
+            })
+            .catch(err => {
+                console.log('from edit bug', err)
+                showErrorMsg('Cannot update bug')
+            })
+    }
 
-    return <section className="user-details">
-        <h1>User {user.fullname}</h1>
-        <pre>
-            {JSON.stringify(user, null, 2)}
-        </pre>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim rem accusantium, itaque ut voluptates quo? Vitae animi maiores nisi, assumenda molestias odit provident quaerat accusamus, reprehenderit impedit, possimus est ad?</p>
-        <button onClick={onBack} >Back</button>
-    </section>
+    if (!loggedinUser) return null
+
+    return (
+        <section className="user-profile main-layout">
+            <h1>Hello {loggedinUser.fullname}</h1>
+
+            {!userBugs || (!userBugs.length && <h2>No bugs to show</h2>)}
+            {userBugs && userBugs.length > 0 && <h3>Manage your bugs</h3>}
+            <BugList bugs={userBugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} loggedinUser={loggedinUser} />
+        </section>
+    )
 }
