@@ -59,27 +59,47 @@ function query(filterBy = {}) {
 
 
 function getById(bugId) {
-    const bug = bugs.find(bug => bug._id === bugId)
+    const bug = gBugs.find(bug => bug._id === bugId)
     if (!bug) return Promise.reject(`No such bug ${bugId}`)
     return Promise.resolve(bug)
 }
 
-function remove(bugId) {
+function remove(bugId, loggedinUser) {
     const idx = gBugs.findIndex(bug => bug._id === bugId)
     if (idx === -1) return Promise.reject(`No such bug ${bugId}`)
+
+    if (!loggedinUser.isAdmin &&
+        gBugs[idx].creator._id !== loggedinUser._id)
+        return Promise.reject('Not your bug')
+
     gBugs.splice(idx, 1)
     return _savebugs()
 }
 
-function save(bug) {
-    console.log(bug);
+function save(bug, loggedinUser) {
+
+    console.log(JSON.stringify(loggedinUser))
+    console.log('adm?', loggedinUser.isAdmin)
+    
+    
 
     if (bug._id) {
+
+        const bugToUpdate = gBugs.find(currBug => currBug._id === bug._id)
         const idx = gBugs.findIndex((currBug) => currBug._id === bug._id)
+
+        if (!loggedinUser.isAdmin &&
+            bugToUpdate.creator._id !== loggedinUser._id)
+            return Promise.reject('Not your bug')
+
         gBugs[idx] = { ...gBugs[idx], ...bug }
+
+
     } else {
         bug.createdAt = Date.now()
         bug._id = utilService.makeId()
+
+        bug.creator = loggedinUser
 
         gBugs.push(bug)
     }

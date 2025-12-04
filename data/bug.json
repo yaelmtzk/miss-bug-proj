@@ -3,19 +3,32 @@
     "_id": "bug001",
     "title": "Email not sent",
     "description": "Clicking Send does nothing",
-    "severity": 2,
+    "severity": 4,
     "createdAt": 1673105102451,
-    "labels": ["need-CR"],
-    "creator": { "_id": "u103", "fullname": "Shimi To" }
+    "labels": [
+      "need-CR"
+    ],
+    "creator": {
+      "_id": "u103",
+      "username": "shimi",
+      "fullname": "Shimi To"
+    }
   },
   {
     "_id": "bug002",
     "title": "Sidebar not expanding",
     "description": "Folders list doesn't open on click",
-    "severity": 4,
+    "severity": 2,
     "createdAt": 1673105201123,
-    "labels": ["critical", "need-CR"],
-    "creator": { "_id": "u102", "fullname": "Muki Lo" }
+    "labels": [
+      "critical",
+      "need-CR"
+    ],
+    "creator": {
+      "_id": "u102",
+      "username": "muki",
+      "fullname": "Muki Lo"
+    }
   },
   {
     "_id": "bug003",
@@ -23,8 +36,14 @@
     "description": "Avatar URL returns 404",
     "severity": 1,
     "createdAt": 1673105309887,
-    "labels": ["dev-branch"],
-    "creator": { "_id": "u101", "fullname": "Puki Ja" }
+    "labels": [
+      "dev-branch"
+    ],
+    "creator": {
+      "_id": "u101",
+      "username": "puki",
+      "fullname": "Puki Ja"
+    }
   },
   {
     "_id": "bug004",
@@ -32,8 +51,14 @@
     "description": "UI stays white after toggling",
     "severity": 3,
     "createdAt": 1673105405532,
-    "labels": ["critical"],
-    "creator": { "_id": "u103", "fullname": "Shimi To" }
+    "labels": [
+      "critical"
+    ],
+    "creator": {
+      "_id": "u103",
+      "username": "shimi",
+      "fullname": "Shimi To"
+    }
   },
   {
     "_id": "bug005",
@@ -41,8 +66,14 @@
     "description": "Typing any text shows all results",
     "severity": 3,
     "createdAt": 1673105504419,
-    "labels": ["critical"],
-    "creator": { "_id": "u101", "fullname": "Puki Ja" }
+    "labels": [
+      "critical"
+    ],
+    "creator": {
+      "_id": "u101",
+      "username": "puki",
+      "fullname": "Puki Ja"
+    }
   },
   {
     "_id": "bug006",
@@ -50,8 +81,14 @@
     "description": "No audio plays when a new message arrives",
     "severity": 2,
     "createdAt": 1673105602211,
-    "labels": ["UI-glitch"],
-    "creator": { "_id": "u101", "fullname": "Puki Ja" }
+    "labels": [
+      "UI-glitch"
+    ],
+    "creator": {
+      "_id": "u101",
+      "username": "puki",
+      "fullname": "Puki Ja"
+    }
   },
   {
     "_id": "bug007",
@@ -59,8 +96,15 @@
     "description": "Closing compose window loses all text",
     "severity": 4,
     "createdAt": 1673105710034,
-    "labels": ["critical", "need-CR"],
-    "creator": { "_id": "u102", "fullname": "Muki Lo" }
+    "labels": [
+      "critical",
+      "need-CR"
+    ],
+    "creator": {
+      "_id": "u102",
+      "username": "miki",
+      "fullname": "Muki Lo"
+    }
   },
   {
     "_id": "bug008",
@@ -68,8 +112,14 @@
     "description": "Loader spins endlessly after selecting a file",
     "severity": 3,
     "createdAt": 1673105808892,
-    "labels": ["backend-check"],
-    "creator": { "_id": "u103", "fullname": "Shimi To" }
+    "labels": [
+      "backend-check"
+    ],
+    "creator": {
+      "_id": "u103",
+      "username": "shimi",
+      "fullname": "Shimi To"
+    }
   },
   {
     "_id": "bug009",
@@ -77,8 +127,14 @@
     "description": "Legitimate emails being moved to spam folder",
     "severity": 5,
     "createdAt": 1673105931448,
-    "labels": ["critical"],
-    "creator": { "_id": "u101", "fullname": "Puki Ja" }
+    "labels": [
+      "critical"
+    ],
+    "creator": {
+      "_id": "u101",
+      "username": "puki",
+      "fullname": "Puki Ja"
+    }
   },
   {
     "_id": "bug010",
@@ -86,8 +142,15 @@
     "description": "Next/Prev buttons do nothing on click",
     "severity": 2,
     "createdAt": 1673106053124,
-    "labels": ["UI-glitch", "dev-branch"],
-    "creator": { "_id": "u102", "fullname": "Muki Lo" }
+    "labels": [
+      "UI-glitch",
+      "dev-branch"
+    ],
+    "creator": {
+      "_id": "u102",
+      "username": "muki",
+      "fullname": "Muki Lo"
+    }
   },
   {
     "_id": "bug011",
@@ -95,8 +158,14 @@
     "description": "Inbox shows 3 unread but list has only 1",
     "severity": 3,
     "createdAt": 1673106152241,
-    "labels": ["need-CR"],
-    "creator": { "_id": "u103", "fullname": "Shimi To" }
+    "labels": [
+      "need-CR"
+    ],
+    "creator": {
+      "_id": "u103",
+      "username": "shimi",
+      "fullname": "Shimi To"
+    }
   },
   {
     "_id": "bug012",
@@ -104,8 +173,14 @@
     "description": "Last line does not appear in preview mode",
     "severity": 1,
     "createdAt": 1673106254412,
-    "labels": ["low-priority"],
-    "creator": { "_id": "u101", "fullname": "Puki Ja" }
+    "labels": [
+      "low-priority"
+    ],
+    "creator": {
+      "_id": "u101",
+      "username": "puki",
+      "fullname": "Puki Ja"
+    }
   },
   {
     "_id": "bug013",
@@ -113,8 +188,15 @@
     "description": "White screen appears instead of settings",
     "severity": 5,
     "createdAt": 1673106359099,
-    "labels": ["critical", "backend-check"],
-    "creator": { "_id": "u102", "fullname": "Muki Lo" }
+    "labels": [
+      "critical",
+      "backend-check"
+    ],
+    "creator": {
+      "_id": "u102",
+      "username": "muki",
+      "fullname": "Muki Lo"
+    }
   },
   {
     "_id": "bug014",
@@ -122,8 +204,14 @@
     "description": "Starring an email takes 3 seconds to update",
     "severity": 2,
     "createdAt": 1673106447783,
-    "labels": ["dev-branch"],
-    "creator": { "_id": "u103", "fullname": "Shimi To" }
+    "labels": [
+      "dev-branch"
+    ],
+    "creator": {
+      "_id": "u103",
+      "username": "shimi",
+      "fullname": "Shimi To"
+    }
   },
   {
     "_id": "bug015",
@@ -131,7 +219,28 @@
     "description": "User is logged out after only 2 minutes idle",
     "severity": 4,
     "createdAt": 1673106553312,
-    "labels": ["need-CR"],
-    "creator": { "_id": "u101", "fullname": "Puki Ja" }
+    "labels": [
+      "need-CR"
+    ],
+    "creator": {
+      "_id": "u101",
+      "username": "puki",
+      "fullname": "Puki Ja"
+    }
+  },
+  {
+    "title": "My Bug",
+    "description": "Lady bug on a lilly",
+    "severity": 3,
+    "labels": [
+      "need-CR"
+    ],
+    "createdAt": 1764855388668,
+    "_id": "9WSvI",
+    "creator": {
+      "username": "yumi",
+      "fullname": "Yumi Ko",
+      "_id": "6jU04"
+    }
   }
 ]
